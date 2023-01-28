@@ -1,9 +1,11 @@
-import Button from '@mui/material/Button'
 import React from 'react'
+import Layout from '@/components/layout/Layout'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <Layout>
+      
+    </Layout>
   )
 }
 

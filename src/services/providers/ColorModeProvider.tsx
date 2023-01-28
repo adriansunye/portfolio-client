@@ -39,19 +39,20 @@ export const ColorModeProvider = ({ children }: Props) => {
                             secondary: '#1D182F',
                         },
                         divider: '#1D182F',
+                        
                     }),
                     ...(mode === 'dark' && {
                         primary: {
                             main: '#998BE5',
                         },
                         background: {
-                            default: '#1D182F',
-                            paper: '#231F35',
+                            default: '#2B2B2B',
+                            paper: '#333333',
                         },
                         text: {
                             secondary: '#F7F7FD',
                         },
-                        divider: '#F7F7FD',
+                        
                     }),
                     secondary: {
                         main: '#f50057',
