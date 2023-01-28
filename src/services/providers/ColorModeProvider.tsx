@@ -21,43 +21,31 @@ export const ColorModeProvider = ({ children }: Props) => {
         [],
     );
 
-
     const theme = useMemo(
         () =>
             createTheme({
                 palette: {
                     mode,
                     ...(mode === 'light' && {
-                        primary: {
-                            main: '#806EDF',
-                        },
                         background: {
-                            default: '#F7F7FD',
-                            paper: '#fefcfe',
+                            default: '#FFFFFF',
+                            paper: '#F3F3F3',
                         },
                         text: {
                             secondary: '#1D182F',
                         },
-                        divider: '#1D182F',
                         
                     }),
                     ...(mode === 'dark' && {
-                        primary: {
-                            main: '#998BE5',
-                        },
                         background: {
-                            default: '#2B2B2B',
-                            paper: '#333333',
+                            default: '#1E1E1E',
+                            paper: '#252527',
                         },
                         text: {
                             secondary: '#F7F7FD',
                         },
                         
                     }),
-                    secondary: {
-                        main: '#f50057',
-                    },
-                    
                 }
             }),
         [mode],
