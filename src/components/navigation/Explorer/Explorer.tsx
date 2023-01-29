@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -6,21 +6,17 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { VscMarkdown } from 'react-icons/vsc';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { Drawer } from '@mui/material'
+import { Drawer, Grid } from '@mui/material'
 import useExplorerState from '@/services/providers/ExplorerStateProvider';
+import useTabsData from '@/services/providers/TabsDataProvider';
+import { Stack } from '@mui/system';
+import TreeView from '@mui/lab/TreeView';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import TreeItem from '@mui/lab/TreeItem';
 
-const drawerWidth = 240;
+const drawerWidth = '287px';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
@@ -73,48 +69,54 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Explorer = () => {
   const theme = useTheme();
-  const {open} = useExplorerState();
+  const { open } = useExplorerState();
+  const {tabsData} = useTabsData();
 
   return (
     <React.Fragment>
       <Drawer
         sx={{
-          zIndex: -1,
+          zIndex: 0,
           width: drawerWidth,
           flexShrink: 0,
+          position: 'absolute',
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
           },
-         
         }}
         variant="persistent"
         anchor="left"
         open={open}
       >
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton sx={{pl: '85px'}}>
-               
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton  sx={{pl: '85px'}}>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <Grid container sx={{ overflow: "auto", overflowY: "hidden", pl: '57px' }}>
+
+          <Stack sx={{ mt: 1 }}>
+            <Typography
+              sx={{ pl: '27px', opacity: 0.7 }}
+              variant="caption"
+              color="text.secondary"
+            >
+              EXPLORER
+            </Typography>
+            <TreeView
+              aria-label="file system navigator"
+              defaultExpanded={["1"]}
+              defaultCollapseIcon={<ExpandMoreIcon />}
+              defaultExpandIcon={<ChevronRightIcon />}
+              sx={{ minWidth: '229px', height: 240, overflowY: 'auto', overflowX: 'hidden' }}
+            >
+              <TreeItem nodeId="1" label="Home" >
+                {tabsData.map((tab) => (
+                  <TreeItem nodeId={tab.id} label={tab.name} icon={<VscMarkdown/>} sx={{iconContainer: 'color:primary'}}/>
+                ))}
+              </TreeItem>
+            </TreeView>
+          </Stack>
+        </Grid>
       </Drawer>
-      </React.Fragment>
-   
+    </React.Fragment>
+
   );
 }
 

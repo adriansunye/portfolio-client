@@ -38,7 +38,7 @@ const ListItem = ({ text }: Props) => {
     const renderListIcon = () => {
         switch (text) {
             case "Explorer":
-                return <FileCopyIcon color="disabled" />;
+                return <FileCopyIcon color="disabled"/>;
             case "Source Control":
                 return <BugReportIcon color="disabled" />;
             case "Github":
@@ -77,13 +77,11 @@ const ListItem = ({ text }: Props) => {
                         sx={{
                             minHeight: 48,
                             justifyContent: 'center',
-                            px: 2.5,
                         }}
                     >
                         <ListItemIcon
                             sx={{
                                 minWidth: 0,
-                                mr: 'auto',
                                 justifyContent: 'center',
                             }}
                         >

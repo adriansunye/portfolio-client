@@ -5,7 +5,7 @@ import { Overview } from '@/components/layout/tabs'
 const Home = () => {
   return (
     <Layout>
-      <Overview/>
+     
     </Layout>
   )
 }

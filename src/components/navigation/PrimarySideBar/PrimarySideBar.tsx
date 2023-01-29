@@ -13,16 +13,13 @@ const drawerTheme = createTheme({
   },
 });
 
+
 const PrimarySideBar = () => {
   return (
     <ThemeProvider theme={drawerTheme}>
       <Drawer 
         variant="permanent"
         sx={{ 
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
           bgcolor: 'background.default',
         }}
       >
