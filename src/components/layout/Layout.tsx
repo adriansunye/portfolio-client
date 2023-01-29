@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Explorer, PrimarySideBar, StatusBar, TabsBar } from '@/components/navigation'
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -22,7 +22,7 @@ const Layout = ({ children }: Props) => {
                 <CssBaseline />
                 <TabsBar value={value} handleChange={handleChange} />
                 <PrimarySideBar />
-                <Explorer />
+                <Explorer/>
                 
                 {children}
             </Box>

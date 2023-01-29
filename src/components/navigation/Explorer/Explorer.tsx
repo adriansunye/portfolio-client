@@ -16,11 +16,11 @@ import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TreeItem from '@mui/lab/TreeItem';
 
-const drawerWidth = '287px';
+const drawerWidth = '270px';
 
 const Explorer = () => {
   const { open } = useExplorerState();
-  const {tabsData} = useTabsData();
+  const {tabsData, setValue} = useTabsData();
 
   return (
     <React.Fragment>
@@ -38,9 +38,9 @@ const Explorer = () => {
         anchor="left"
         open={open}
       >
-        <Grid container sx={{ overflow: "auto", overflowY: "hidden", pl: '57px' }}>
+        <Grid container sx={{ overflow: "hidden", pl: '57px' }}>
 
-          <Stack sx={{ mt: 1 }}>
+          <Stack sx={{ mt: 1, width:'100%' }}>
             <Typography
               sx={{ pl: '27px', opacity: 0.7 }}
               variant="caption"
@@ -53,11 +53,19 @@ const Explorer = () => {
               defaultExpanded={["folderNode"]}
               defaultCollapseIcon={<ExpandMoreIcon />}
               defaultExpandIcon={<ChevronRightIcon />}
-              sx={{ minWidth: '229px', height: 240, overflowY: 'auto', overflowX: 'hidden' }}
+              sx={{ height: 240, overflowY: 'auto', overflowX: 'hidden' }}
             >
               <TreeItem nodeId="folderNode" label="Home" >
                 {tabsData.map((tab) => (
-                  <TreeItem  key={tab.name} nodeId={tab.id.toString()} label={tab.name} sx={{color:'text.primary'}} icon={<VscMarkdown style={{ color: '#6997D5' }}/>} />
+                  <TreeItem  
+                  onClick={() =>setValue(tab.id)}
+                    key={tab.name} 
+                    nodeId={tab.id.toString()} 
+                    label={tab.name} sx={{color:'text.primary'}} 
+                    icon={<VscMarkdown style={{ color: '#6997D5' }}
+                  />
+                } 
+              />
                 ))}
               </TreeItem>
             </TreeView>

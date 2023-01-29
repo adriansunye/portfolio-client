@@ -11,6 +11,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }>(({ theme, open }) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
+    paddingRight:theme.spacing(1),
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -21,7 +22,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        marginLeft: 0,
+        marginLeft: `-30px`,
     }),
 }));
 
@@ -33,13 +34,10 @@ const PanelsContainer = () => {
             open={open}
             sx={{
                 overflow: 'hidden',
-                ...(!open && {
-                    paddingLeft: '80px'
-                })
             }}
         >
             {tabsData.map((tab) => (
-                <TabPanel value={value} index={tab.id}>
+                <TabPanel key={tab.name} value={value} index={tab.id}>
                     {tab.node}
                 </TabPanel>
             ))}

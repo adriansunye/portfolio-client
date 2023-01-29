@@ -8,7 +8,8 @@ type Props = {
 interface TabsData {
     id: number,
     name: string,
-    node: React.ReactNode
+    node: React.ReactNode,
+    closed: boolean
 }
 
 interface TabsDataContextValue {
@@ -24,42 +25,44 @@ const initialTabsData: TabsDataContextValue = {
         {
             id: 0,
             name: 'overview.md',
-            node: <Overview/>
+            node: <Overview/>,
+            closed: false
         },
         {
             id: 1,
             name: 'skills.md',
-            node: <Skills/>
-
+            node: <Skills/>,
+            closed: false
         },
         {
             id: 2,
             name: 'experience.md',
-            node: <Experience/>
-
+            node: <Experience/>,
+            closed: false
         },
         {
             id: 3,
             name: 'education.md',
-            node: <Education/>
-
+            node: <Education/>,
+            closed: false
         },
         {
             id: 4,
             name: 'projects.md',
-            node: <Projects/>
-
+            node: <Projects/>,
+            closed: false
         },
         {
             id: 5,
             name: 'certificates.md',
-            node: <Certificates/>
-
+            node: <Certificates/>,
+            closed: false
         },
         {
             id: 6,
             name: 'accomplishments.md',
-            node: <Accomplishments/>
+            node: <Accomplishments/>,
+            closed: false
         },
     ],
     value: 0,
