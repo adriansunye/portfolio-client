@@ -8,7 +8,7 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import { VscMarkdown } from 'react-icons/vsc';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Drawer, Grid } from '@mui/material'
+import { Drawer, Grid, textFieldClasses } from '@mui/material'
 import useExplorerState from '@/services/providers/ExplorerStateProvider';
 import useTabsData from '@/services/providers/TabsDataProvider';
 import { Stack } from '@mui/system';
@@ -18,57 +18,7 @@ import TreeItem from '@mui/lab/TreeItem';
 
 const drawerWidth = '287px';
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
-  open?: boolean;
-}>(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  }),
-}));
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}));
-
 const Explorer = () => {
-  const theme = useTheme();
   const { open } = useExplorerState();
   const {tabsData} = useTabsData();
 
@@ -79,7 +29,6 @@ const Explorer = () => {
           zIndex: 0,
           width: drawerWidth,
           flexShrink: 0,
-          position: 'absolute',
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
@@ -101,14 +50,14 @@ const Explorer = () => {
             </Typography>
             <TreeView
               aria-label="file system navigator"
-              defaultExpanded={["1"]}
+              defaultExpanded={["folderNode"]}
               defaultCollapseIcon={<ExpandMoreIcon />}
               defaultExpandIcon={<ChevronRightIcon />}
               sx={{ minWidth: '229px', height: 240, overflowY: 'auto', overflowX: 'hidden' }}
             >
-              <TreeItem nodeId="1" label="Home" >
+              <TreeItem nodeId="folderNode" label="Home" >
                 {tabsData.map((tab) => (
-                  <TreeItem nodeId={tab.id} label={tab.name} icon={<VscMarkdown/>} sx={{iconContainer: 'color:primary'}}/>
+                  <TreeItem  key={tab.name} nodeId={tab.id.toString()} label={tab.name} sx={{color:'text.primary'}} icon={<VscMarkdown style={{ color: '#6997D5' }}/>} />
                 ))}
               </TreeItem>
             </TreeView>

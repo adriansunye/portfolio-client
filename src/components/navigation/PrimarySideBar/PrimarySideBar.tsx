@@ -3,6 +3,7 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from './ListItem';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { padding } from '@mui/system';
 
 const drawerTheme = createTheme({
   palette: {
@@ -12,7 +13,6 @@ const drawerTheme = createTheme({
     },
   },
 });
-
 
 const PrimarySideBar = () => {
   return (
@@ -29,16 +29,17 @@ const PrimarySideBar = () => {
           }}
         >
           {['Explorer', 'Source Control', 'Github', 'Linkedin', 'Send Mail'].map((text) => (
-            <ListItem text={text}/>
+            <ListItem  key={text} text={text}/>
           ))}
         </List>
         <List 
           sx={{ 
-            marginTop: 'auto' 
+            marginTop: 'auto',
+            pb: '20px' 
           }}
         >
           {['Theme', 'Configuration'].map((text) => (
-            <ListItem text={text}/>
+            <ListItem  key={text} text={text}/>
           ))}
         </List>
       </Drawer>

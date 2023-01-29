@@ -28,29 +28,26 @@ const ListItem = ({ text }: Props) => {
     const theme = useTheme();
     const { open, setOpen } = useExplorerState();
 
-    const handleExplorerOpen = () => {
-        setOpen(true);
+    const handleExplorer = () => {
+        setOpen(!open);
     };
 
-    const handleExplorerClose = () => {
-        setOpen(false);
-    };
     const renderListIcon = () => {
         switch (text) {
             case "Explorer":
-                return <FileCopyIcon color="disabled"/>;
+                return <FileCopyIcon sx={{ color: '#858585'}}/>;
             case "Source Control":
-                return <BugReportIcon color="disabled" />;
+                return <BugReportIcon sx={{ color: '#858585'}} />;
             case "Github":
-                return <GitHubIcon color="disabled" />;
+                return <GitHubIcon sx={{ color: '#858585'}} />;
             case "Linkedin":
-                return <LinkedInIcon color="disabled" />;
+                return <LinkedInIcon sx={{ color: '#858585'}} />;
             case "Send Mail":
-                return <EmailIcon color="disabled" />;
+                return <EmailIcon sx={{ color: '#858585'}} />;
             case "Theme":
-                return theme.palette.mode === "light" ? <LightModeIcon color="disabled" /> : <DarkModeIcon color="disabled" />;
+                return theme.palette.mode === "light" ? <LightModeIcon sx={{ color: '#858585'}} /> : <DarkModeIcon sx={{ color: '#858585'}} />;
             case "Configuration":
-                return <SettingsIcon color="disabled" />;
+                return <SettingsIcon sx={{ color: '#858585'}} />;
             default:
                 return null;
         }
@@ -59,7 +56,6 @@ const ListItem = ({ text }: Props) => {
         <React.Fragment>
             <Tooltip title={text} placement="right" arrow>
                 <Item
-                    key={text}
                     disablePadding
                     sx={{
                         display: 'block',
@@ -67,9 +63,8 @@ const ListItem = ({ text }: Props) => {
                             borderLeft: 1
                         })
                     }}
-                    onClick={text === "Explorer" || text === "Theme" ? text === "Explorer" ? open
-                    ? handleExplorerClose
-                    : handleExplorerOpen
+                    onClick={text === "Explorer" || text === "Theme" ? text === "Explorer"
+                    ? handleExplorer
                     : colorMode.toggleColorMode 
                     : undefined}
                 >
@@ -82,6 +77,7 @@ const ListItem = ({ text }: Props) => {
                         <ListItemIcon
                             sx={{
                                 minWidth: 0,
+                                mr: 'auto',
                                 justifyContent: 'center',
                             }}
                         >

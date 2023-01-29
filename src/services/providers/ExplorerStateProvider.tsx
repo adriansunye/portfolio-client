@@ -1,4 +1,6 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useEffect, createContext, useContext } from "react";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from "@mui/material";
 
 type Props = {
     children?: React.ReactNode;
@@ -10,7 +12,10 @@ export const ExplorerStateContext = createContext({
 })
 
 export const ExplorerStateProvider = ({ children }: Props) => {
-    const [open, setOpen] = React.useState(true);
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('sm'));
+    const [open, setOpen] = React.useState(matches);
+
     return (
         <ExplorerStateContext.Provider value={{ open, setOpen }}>
             {children}

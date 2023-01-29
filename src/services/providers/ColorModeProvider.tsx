@@ -32,6 +32,7 @@ export const ColorModeProvider = ({ children }: Props) => {
                             paper: '#F3F3F3',
                         },
                         text: {
+                            primary: '#69665F',
                             secondary: '#1D182F',
                         },
                         
@@ -42,6 +43,7 @@ export const ColorModeProvider = ({ children }: Props) => {
                             paper: '#252527',
                         },
                         text: {
+                            primary: '#BDC3CF',
                             secondary: '#FFFFFF',
                         },
                         

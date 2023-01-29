@@ -1,54 +1,34 @@
-import React from 'react'
-import { Explorer, PrimarySideBar } from '@/components/navigation'
+import React, { useCallback } from 'react'
+import { Explorer, PrimarySideBar, StatusBar, TabsBar } from '@/components/navigation'
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import { styled, useTheme } from '@mui/material/styles';
-import useExplorerState from '@/services/providers/ExplorerStateProvider';
-
+import useTabsData from '@/services/providers/TabsDataProvider';
 
 type Props = {
     children?: React.ReactNode;
 };
 
-const drawerWidth = 240;
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
-    open?: boolean;
-}>(({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-    }),
-}));
-
 const Layout = ({ children }: Props) => {
-    const { open } = useExplorerState();
+    const { value, setValue } = useTabsData();
+
+    const handleChange = useCallback((event: React.SyntheticEvent, newValue: number) =>
+        setValue(newValue),
+        [setValue]
+    );
 
     return (
-        <Box sx={{ display: 'flex'}}>
-            <CssBaseline />
-            <PrimarySideBar />
-            <Explorer />
-            <Main 
-                open={open} 
-                sx={{
-                    ...(!open && {
-                        paddingLeft: '89px'
-                    })
-                }}
-            >
+        <React.Fragment>
+            <Box sx={{ display: 'flex' }}>
+                <CssBaseline />
+                <TabsBar value={value} handleChange={handleChange} />
+                <PrimarySideBar />
+                <Explorer />
+                
                 {children}
-            </Main>
-        </Box>
+            </Box>
+            <StatusBar />
+
+        </React.Fragment>
     )
 }
 
