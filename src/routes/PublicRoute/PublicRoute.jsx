@@ -6,18 +6,21 @@ import {
 } from "react-router-dom";
 
 import Home from '@/views/home/Home';
-import RecordList from '@/views/records/RecordList';
 import Create from '@/views/records/Create';
-
-
+import Landing from '@/views/landing/Landing';
+import Login from '@/views/login/Login';
+import Register from '@/views/register/Register';
 
 const PublicRoute = () => {
-    return (
+    return(
         <Router>
             <Routes>
                 <Route path="/" element={<Home/>} />
-                <Route path="/list" element={<RecordList />} />
-                <Route path="/create" element={<Create />} />
+                    <Route path="/create" element={<Create />} />
+                    <Route path="/landing" element={<Landing />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+
                 <Route path="*" element="" />
             </Routes>
         </Router>
