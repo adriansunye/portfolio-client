@@ -1,4 +1,4 @@
-import { Accomplishments, Certificates, Education, Experience, Overview, Projects, Skills } from "@/components/layout/tabs";
+import { Accomplishments, Certificates, Education, Experience, Overview, Projects, Skills, Settings } from "@/components/layout/tabs";
 import React, { useEffect, createContext, useContext } from "react";
 
 type Props = {
@@ -64,6 +64,12 @@ const initialTabsData: TabsDataContextValue = {
             node: <Accomplishments/>,
             closed: false
         },
+        {
+            id: 7,
+            name: 'Settings',
+            node: <Settings/>,
+            closed: true
+        }
     ],
     value: 0,
     setTabsData: (data) => { },

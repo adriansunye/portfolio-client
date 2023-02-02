@@ -50,14 +50,15 @@ const TabsBar = ({ value, handleChange }: Props) => {
   const { tabsData, setTabsData } = useTabsData();
 
   return (
-    <AppBar position="fixed" open={open} >
-      <Paper sx={{ mt:-2, pb:1, position: 'fixed', width: '100%', color: "white"}} >
+    <AppBar position="fixed" open={open}>
+      <Paper sx={{ mt:-2, pb:1,  color: "white"}} >
         <Tabs 
           sx={{height:0}} 
           value={value} 
           onChange={handleChange} 
           aria-label="basic tabs example" 
           variant='scrollable'
+          scrollButtons={false}
           TabIndicatorProps={{   
             style: {
                 display: "none",
@@ -76,7 +77,7 @@ const TabsBar = ({ value, handleChange }: Props) => {
                   </Typography>
                   }
                 {...a11yProps(openTab.id)} 
-                sx={{ textTransform: "none" }} 
+                sx={{ textTransform: "none", p:1 }} 
                 icon={<VscMarkdown style={{ color: '#6997D5' }}/>} 
                 iconPosition='start'
               />

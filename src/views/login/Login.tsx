@@ -2,27 +2,25 @@ import { Button, Callout, FormGroup, InputGroup } from "@blueprintjs/core"
 import React, { useContext, useState } from "react"
 import { UserContext } from '@/services/providers/UserProvider';
 
-const Register = () => {
+const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [userContext, setUserContext] = useContext(UserContext)
 
-  const formSubmitHandler = e => {
+  const formSubmitHandler = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
     setError("")
 
     const genericErrorMessage = "Something went wrong! Please try again later."
 
-    fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "users/signup", {
+    fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "users/login", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ firstName, lastName, username: email, password }),
+      body: JSON.stringify({ username: email, password }),
     })
       .then(async response => {
         setIsSubmitting(false)
@@ -31,10 +29,6 @@ const Register = () => {
             setError("Please fill all the fields correctly!")
           } else if (response.status === 401) {
             setError("Invalid email and password combination.")
-          } else if (response.status === 500) {
-            console.log(response)
-            const data = await response.json()
-            if (data.message) setError(data.message || genericErrorMessage)
           } else {
             setError(genericErrorMessage)
           }
@@ -50,35 +44,17 @@ const Register = () => {
         setError(genericErrorMessage)
       })
   }
-
   return (
     <>
       {error && <Callout intent="danger">{error}</Callout>}
-
       <form onSubmit={formSubmitHandler} className="auth-form">
-        <FormGroup label="First Name" labelFor="firstName">
-          <InputGroup
-            id="firstName"
-            placeholder="First Name"
-            onChange={e => setFirstName(e.target.value)}
-            value={firstName}
-          />
-        </FormGroup>
-        <FormGroup label="Last Name" labelFor="firstName">
-          <InputGroup
-            id="lastName"
-            placeholder="Last Name"
-            onChange={e => setLastName(e.target.value)}
-            value={lastName}
-          />
-        </FormGroup>
         <FormGroup label="Email" labelFor="email">
           <InputGroup
             id="email"
-            type="email"
             placeholder="Email"
-            onChange={e => setEmail(e.target.value)}
+            type="email"
             value={email}
+            onChange={e => setEmail(e.target.value)}
           />
         </FormGroup>
         <FormGroup label="Password" labelFor="password">
@@ -86,14 +62,14 @@ const Register = () => {
             id="password"
             placeholder="Password"
             type="password"
-            onChange={e => setPassword(e.target.value)}
             value={password}
+            onChange={e => setPassword(e.target.value)}
           />
         </FormGroup>
         <Button
           intent="primary"
           disabled={isSubmitting}
-          text={`${isSubmitting ? "Registering" : "Register"}`}
+          text={`${isSubmitting ? "Signing In" : "Sign In"}`}
           fill
           type="submit"
         />
@@ -102,4 +78,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Login

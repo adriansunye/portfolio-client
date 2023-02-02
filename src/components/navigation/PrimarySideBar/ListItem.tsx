@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import useColorMode from '@/services/providers/ColorModeProvider';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
@@ -17,7 +17,8 @@ import {
     useTheme
 } from '@mui/material';
 import useExplorerState from '@/services/providers/ExplorerStateProvider';
-
+import { useNavigate } from "react-router";
+import SettingsMenu from '@/components/navigation/PrimarySideBar/SettingsMenu';
 
 type Props = {
     text: string,
@@ -27,27 +28,46 @@ const ListItem = ({ text }: Props) => {
     const colorMode = useColorMode();
     const theme = useTheme();
     const { open, setOpen } = useExplorerState();
+    const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const settingsMenuOpen = Boolean(anchorEl);
+
+    const handleClose = useCallback((event: React.SyntheticEvent) =>
+        setAnchorEl(null),
+        [setAnchorEl]
+    );
+ 
 
     const handleExplorer = () => {
         setOpen(!open);
     };
 
+    const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
+        if (text === "Explorer") {
+            handleExplorer();
+        } else if (text === "Theme") {
+            colorMode.toggleColorMode();
+        } else if (text === "Configuration") {
+            setAnchorEl(event.currentTarget);
+        }
+    }
+
     const renderListIcon = () => {
         switch (text) {
             case "Explorer":
-                return <FileCopyIcon sx={{ color: '#858585'}}/>;
+                return <FileCopyIcon sx={{ color: '#858585' }} />;
             case "Source Control":
-                return <BugReportIcon sx={{ color: '#858585'}} />;
+                return <BugReportIcon sx={{ color: '#858585' }} />;
             case "Github":
-                return <GitHubIcon sx={{ color: '#858585'}} />;
+                return <GitHubIcon sx={{ color: '#858585' }} />;
             case "Linkedin":
-                return <LinkedInIcon sx={{ color: '#858585'}} />;
+                return <LinkedInIcon sx={{ color: '#858585' }} />;
             case "Send Mail":
-                return <EmailIcon sx={{ color: '#858585'}} />;
+                return <EmailIcon sx={{ color: '#858585' }} />;
             case "Theme":
-                return theme.palette.mode === "light" ? <LightModeIcon sx={{ color: '#858585'}} /> : <DarkModeIcon sx={{ color: '#858585'}} />;
+                return theme.palette.mode === "light" ? <LightModeIcon sx={{ color: '#858585' }} /> : <DarkModeIcon sx={{ color: '#858585' }} />;
             case "Configuration":
-                return <SettingsIcon sx={{ color: '#858585'}} />;
+                return <SettingsIcon sx={{ color: '#858585' }} />;
             default:
                 return null;
         }
@@ -63,10 +83,7 @@ const ListItem = ({ text }: Props) => {
                             borderLeft: 1
                         })
                     }}
-                    onClick={text === "Explorer" || text === "Theme" ? text === "Explorer"
-                    ? handleExplorer
-                    : colorMode.toggleColorMode 
-                    : undefined}
+                    onClick={handleClick}
                 >
                     <ListItemButton
                         sx={{
@@ -87,6 +104,7 @@ const ListItem = ({ text }: Props) => {
                 </Item>
             </Tooltip>
             {text === 'Source Control' ? <Divider /> : ''}
+            <SettingsMenu anchorEl={anchorEl} open={settingsMenuOpen} onClose={handleClose}/>
         </React.Fragment>
     )
 }

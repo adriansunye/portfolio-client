@@ -5,5 +5,7 @@ import Experience from '@/components/layout/tabs/TabPanel/Experience/Experience'
 import Overview from '@/components/layout/tabs/TabPanel/Overview/Overview';
 import Projects from '@/components/layout/tabs/TabPanel/Projects/Projects';
 import Skills from '@/components/layout/tabs/TabPanel/Skills/Skills';
+import Settings from '@/components/layout/tabs/TabPanel/Settings/Settings';
 
-export { Accomplishments, Certificates, Education, Experience, Overview, Projects, Skills }
+
+export { Accomplishments, Certificates, Education, Experience, Overview, Projects, Skills, Settings }
