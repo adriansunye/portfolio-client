@@ -17,7 +17,6 @@ interface TabsDataContextValue {
     value: number,
     setTabsData: (data: TabsData[]) => void
     setValue: (index: number) => void
-
 }
 
 const initialTabsData: TabsDataContextValue = {

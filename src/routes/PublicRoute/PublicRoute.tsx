@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 
 import Home from '@/views/home/Home';
-import Config from '@/views/config/Config';
 
 
 const PublicRoute = () => {
@@ -14,7 +13,6 @@ const PublicRoute = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<Home/>} />
-                    <Route path="/configuration" element={<Config />} />
                 <Route path="*" element="" />
             </Routes>
         </Router>
