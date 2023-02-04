@@ -11,7 +11,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }>(({ theme, open }) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
-    paddingRight:theme.spacing(1),
+    paddingRight: theme.spacing(1),
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -28,20 +28,24 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 
 const PanelsContainer = () => {
     const { open } = useExplorerState();
-    const { tabsData, value } = useTabsData();
+    const { currentTab, activeTabs } = useTabsData();
     return (
-        <Main
+        <>
+         <Main
             open={open}
             sx={{
                 overflow: 'hidden',
             }}
         >
-            {tabsData.map((tab) => (
-                <TabPanel key={tab.name} value={value} index={tab.id}>
-                    {tab.node}
-                </TabPanel>
-            ))}
-        </Main>
+            {activeTabs.map(tab =>
+                currentTab === tab.id ? (
+                    <TabPanel key={tab.name} value={currentTab} index={tab.id}>
+                        {tab.node}
+                    </TabPanel>
+                ) : null
+            )}
+            </Main>
+       </>
     )
 }
 

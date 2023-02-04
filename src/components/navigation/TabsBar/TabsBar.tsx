@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { styled } from '@mui/material/styles';
 import { Tab, Tabs, IconButton, Typography, Box, Paper } from '@mui/material';
@@ -6,6 +6,9 @@ import useExplorerState from '@/services/providers/ExplorerStateProvider';
 import useTabsData from '@/services/providers/TabsDataProvider';
 import { VscMarkdown } from 'react-icons/vsc';
 import CloseIcon from '@mui/icons-material/Close';
+import TabPanel from '@/components/layout/tabs/TabPanel/TabPanel';
+import { padding } from '@mui/system';
+
 
 const sideBarWidth = 57;
 const navigationWidth = 270;
@@ -19,6 +22,12 @@ function a11yProps(index: number) {
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
+}
+interface TabsData {
+  id: number,
+  name: string,
+  node: React.ReactNode,
+  closed: boolean
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -41,51 +50,59 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 type Props = {
-  value: number,
-  handleChange: (event: React.SyntheticEvent, newValue: number) => void
+  currentTab: number,
+  handleChange: (event: React.SyntheticEvent, currentTab: number) => void
+  handleClose: (event: React.MouseEvent<HTMLSpanElement, MouseEvent>, tabToDelete: TabsData) => void
 };
 
-const TabsBar = ({ value, handleChange }: Props) => {
+const TabsBar = ({ currentTab, handleChange, handleClose }: Props) => {
   const { open } = useExplorerState();
-  const { tabsData, setTabsData } = useTabsData();
+  const { tabsData, activeTabs, setTabsData, setCurrentTab, setActiveTabs } = useTabsData();
+
+  useEffect(() => {
+    const openTabs = tabsData.filter((tab => !tab.closed));
+    setActiveTabs(openTabs);
+  }, [tabsData]);
 
   return (
-    <AppBar position="fixed" open={open}>
-      <Paper sx={{ mt:-2, pb:1,  color: "white"}} >
-        <Tabs 
-          sx={{height:0}} 
-          value={value} 
-          onChange={handleChange} 
-          aria-label="basic tabs example" 
+    <AppBar elevation={0} position="fixed" open={open}>
+      <Paper sx={{ mt: -2, pb: 1, color: "white" }} >
+        <Tabs
+          sx={{ height: 0 }}
+          value={currentTab}
+          onChange={handleChange}
+          aria-label="basic tabs example"
           variant='scrollable'
           scrollButtons={false}
-          TabIndicatorProps={{   
+          TabIndicatorProps={{
             style: {
-                display: "none",
+              display: "none",
             },
-          }} 
+          }}
         >
-          {tabsData.filter((tab => !tab.closed)).map(openTab  => (
-              <Tab 
-                key={openTab.name}
-                label={
-                  <Typography component={'span'}> 
-                      {openTab.name}
-                      <IconButton size="small" color='secondary' component="span" >
-                          <CloseIcon />
-                      </IconButton>
-                  </Typography>
-                  }
-                {...a11yProps(openTab.id)} 
-                sx={{ textTransform: "none", p:1 }} 
-                icon={<VscMarkdown style={{ color: '#6997D5' }}/>} 
-                iconPosition='start'
-              />
+          {activeTabs.map((activeTab, index) => (
+            <Tab
+              value={activeTab.id}
+              key={activeTab.name}
+              label={
+                <Typography component={'span'}>
+                  {activeTab.name}
+                  <IconButton onClick={(event) => handleClose(event, activeTab)} size="small" sx={{color:'text.secondary'}} component="span" >
+                    <CloseIcon />
+                  </IconButton>
+                </Typography>
+              }
+              {...a11yProps(index)}
+              sx={{ textTransform: "none", p: 1 }}
+              icon={<VscMarkdown style={{ color: '#6997D5' }} />}
+              iconPosition='start'
+            />
           ))}
-          
+
         </Tabs>
       </Paper>
     </AppBar>
+
   )
 }
 

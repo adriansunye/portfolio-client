@@ -14,9 +14,11 @@ interface TabsData {
 
 interface TabsDataContextValue {
     tabsData: TabsData[],
-    value: number,
+    activeTabs: TabsData[],
+    currentTab: number,
     setTabsData: (data: TabsData[]) => void
-    setValue: (index: number) => void
+    setActiveTabs: (data: TabsData[]) => void
+    setCurrentTab: (index: number) => void
 }
 
 const initialTabsData: TabsDataContextValue = {
@@ -70,18 +72,21 @@ const initialTabsData: TabsDataContextValue = {
             closed: true
         }
     ],
-    value: 0,
-    setTabsData: (data) => { },
-    setValue: (index) => {}
+    activeTabs: [],
+    currentTab: 0,
+    setTabsData: (data) => {},
+    setActiveTabs: (data) => {},
+    setCurrentTab: (index) => {}
 }
 export const TabsDataContext = React.createContext<TabsDataContextValue>(initialTabsData);
 
 export const TabsDataProvider = ({ children }: Props) => {
     const [tabsData, setTabsData] = React.useState<TabsData[]>(initialTabsData.tabsData);
-    const [value, setValue] = React.useState(initialTabsData.value);
+    const [activeTabs, setActiveTabs] = React.useState<TabsData[]>(initialTabsData.activeTabs);
+    const [currentTab, setCurrentTab] = React.useState(initialTabsData.currentTab);
 
     return (
-        <TabsDataContext.Provider value={{ tabsData, value, setTabsData, setValue }}>
+        <TabsDataContext.Provider value={{ tabsData, activeTabs, currentTab, setTabsData, setActiveTabs, setCurrentTab }}>
             {children}
         </TabsDataContext.Provider>
     );

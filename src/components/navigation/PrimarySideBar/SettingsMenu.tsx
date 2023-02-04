@@ -16,10 +16,10 @@ type Props = {
 };
 
 export default function SettingsMenu(props:Props) {
-    const { tabsData, setTabsData, value, setValue } = useTabsData();
+    const { tabsData, setActiveTabs, currentTab, setCurrentTab } = useTabsData();
 
     const handleClick = () => {
-        if(value !== 7){
+        if(currentTab !== 7){
             // loop over the todos list and find the provided id.
             let updatedTabs = tabsData.map(tab => {
                 if (tab.name === 'Settings') {
@@ -28,8 +28,9 @@ export default function SettingsMenu(props:Props) {
                 return tab; // else return unmodified item 
             });
 
-            setTabsData(updatedTabs); // set state to new object with updated list
-            setValue(7); // set state to new object with updated list
+            setActiveTabs(updatedTabs); // set state to new object with updated list
+
+            setCurrentTab(7); // set state to new object with updated list
         }
     };
     

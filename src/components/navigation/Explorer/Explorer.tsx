@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,10 +17,29 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TreeItem from '@mui/lab/TreeItem';
 
 const drawerWidth = '270px';
+interface TabsData {
+  id: number,
+  name: string,
+  node: React.ReactNode,
+  closed: boolean
+}
 
 const Explorer = () => {
   const { open } = useExplorerState();
-  const {tabsData, setValue} = useTabsData();
+  const { tabsData, activeTabs, setTabsData, setCurrentTab, setActiveTabs } = useTabsData();
+
+  const handleOpen = useCallback(
+    (event: React.MouseEvent<HTMLSpanElement, MouseEvent>, tabToCreate: TabsData) => {
+      // stop event from propagating to the target element's parent
+      event.stopPropagation();
+      const foundTab = activeTabs.filter((tab => tab.id === tabToCreate.id))
+      if (foundTab.length===0) {
+        setActiveTabs([...activeTabs, tabToCreate]);
+      }
+      setCurrentTab(tabToCreate.id);
+    },
+    [activeTabs]
+  );
 
   return (
     <React.Fragment>
@@ -40,7 +59,7 @@ const Explorer = () => {
       >
         <Grid container sx={{ overflow: "hidden", pl: '57px' }}>
 
-          <Stack sx={{ mt: 1, width:'100%' }}>
+          <Stack sx={{ mt: 1, width: '100%' }}>
             <Typography
               sx={{ pl: '27px', opacity: 0.7 }}
               variant="caption"
@@ -56,16 +75,14 @@ const Explorer = () => {
               sx={{ height: 240, overflowY: 'auto', overflowX: 'hidden' }}
             >
               <TreeItem nodeId="folderNode" label="Home" >
-                {tabsData.map((tab) => (
-                  <TreeItem  
-                  onClick={() =>setValue(tab.id)}
-                    key={tab.name} 
-                    nodeId={tab.id.toString()} 
-                    label={tab.name} sx={{color:'text.primary'}} 
-                    icon={<VscMarkdown style={{ color: '#6997D5' }}
+                {tabsData.filter((filterTab => filterTab.name !== "Settings")).map((tab) => (
+                  <TreeItem
+                    onClick={(event) => handleOpen(event, tab)}
+                    key={tab.name}
+                    nodeId={tab.id.toString()}
+                    label={tab.name} sx={{ color: 'text.primary' }}
+                    icon={<VscMarkdown style={{ color: '#6997D5' }} />}
                   />
-                } 
-              />
                 ))}
               </TreeItem>
             </TreeView>
