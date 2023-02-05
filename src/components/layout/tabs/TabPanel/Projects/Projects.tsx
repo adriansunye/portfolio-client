@@ -2,41 +2,30 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Schema } from 'mongoose';
 
-interface Record {
+interface Project {
   _id: Schema.Types.ObjectId
-  name: string,
-  position: string,
-  level: string
+  projectName: string,
+  description: string,
+  repositoryUrl: string
 }
 
 interface Props {
-  record: Record,
-  deleteRecord: (_id: string) => void,
+  project: Project
 }
-const Record = ({ record, deleteRecord }: Props) => (
+const Project = ({ project }: Props) => (
   <tr>
-    <td>{record.name}</td>
-    <td>{record.position}</td>
-    <td>{record.level}</td>
-    <td>
-      <Link className="btn btn-link" to={`/edit/${record._id}`}>Edit</Link> |
-      <button className="btn btn-link"
-        onClick={() => {
-          deleteRecord(record._id.toString())
-        }}
-      >
-        Delete
-      </button>
-    </td>
+    <td>{project.projectName}</td>
+    <td>{project.description}</td>
+    <td>{project.repositoryUrl}</td>
   </tr>
 );
 
-export default function RecordList() {
-  const [records, setRecords] = useState<any[]>([]);
+export default function ProjectsList() {
+  const [projects, setProjects] = useState<any[]>([]);
 
   // This method fetches the records from the database.
   useEffect(() => {
-    async function getRecords() {
+    async function getProjects() {
       const response = await fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "projects/all");
 
       if (!response.ok) {
@@ -45,33 +34,22 @@ export default function RecordList() {
         return;
       }
 
-      const records = await response.json();
-      setRecords(records);
+      const projects = await response.json();
+      setProjects(projects);
     }
 
-    getRecords();
+    getProjects();
 
     return;
-  }, [records.length]);
-
-  // This method will delete a record
-  async function deleteRecord(id: String) {
-    await fetch(`http://localhost:project/${id}`, {
-      method: "DELETE"
-    });
-
-    const newRecords = records.filter((el) => el._id !== id);
-    setRecords(newRecords);
-  }
+  }, [projects.length]);
 
   // This method will map out the records on the table
-  function recordList() {
-    return records.map((record) => {
+  function projectList() {
+    return projects.map((project) => {
       return (
-        <Record
-          record={record}
-          deleteRecord={() => deleteRecord(record._id)}
-          key={record._id}
+        <Project
+          project={project}
+          key={project._id}
         />
       );
     });
@@ -87,10 +65,9 @@ export default function RecordList() {
             <th>Name</th>
             <th>Position</th>
             <th>Level</th>
-            <th>Action</th>
           </tr>
         </thead>
-        <tbody>{recordList()}</tbody>
+        <tbody>{projectList()}</tbody>
       </table>
     </div>
   );

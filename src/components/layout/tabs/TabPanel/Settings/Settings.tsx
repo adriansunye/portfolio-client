@@ -1,9 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from "react"
 import { UserContext } from '@/services/providers/UserProvider';
 import Loader from "@/components/layout/loader/Loader";
-import Create from "@/views/create/Create";
-
-import Login from "@/views/login/Login";
+import AdminControl from "@/components/layout/tabs/TabPanel/Settings/AdminControl/AdminControl";
+import Login from "@/components/layout/tabs/TabPanel/Settings/Login/Login";
 
 const Settings = () => {
     const [userContext, setUserContext] = useContext(UserContext);
@@ -55,7 +54,7 @@ const Settings = () => {
             {userContext.token === null ?
                 <Login /> :  
                 userContext.token ? 
-                <Create/> :
+                <AdminControl/> :
                 <Loader />
             }
         </React.Fragment>
