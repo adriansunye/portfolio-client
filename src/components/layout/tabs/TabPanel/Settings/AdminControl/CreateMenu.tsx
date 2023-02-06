@@ -55,7 +55,7 @@ const CreateMenu = (props: Props) => {
 
 
         // When a post request is sent to the create url, we'll add a new record to the database.
-        await fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "projects/create", {
+        await fetch("/projects/create", {
             method: "POST",
             credentials: "include",
             // Pass authentication token as bearer token in header

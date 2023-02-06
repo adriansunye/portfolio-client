@@ -27,7 +27,7 @@ export default function ProjectsList() {
   // This method fetches the records from the database.
   useEffect(() => {
     async function getProjects() {
-      const response = await fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "projects/all");
+      const response = await fetch("/projects/all");
 
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;

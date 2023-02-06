@@ -59,7 +59,7 @@ const Create = () => {
   }
 
   async function getProjects() {
-    const response = await fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "projects/all");
+    const response = await fetch("/projects/all");
 
     if (!response.ok) {
       const message = `An error occurred: ${response.statusText}`;
@@ -75,7 +75,7 @@ const Create = () => {
 
 
   const fetchUserDetails = useCallback(() => {
-    fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "users/me", {
+    fetch("/users/me", {
       method: "GET",
       credentials: "include",
       // Pass authentication token as bearer token in header
@@ -114,7 +114,7 @@ const Create = () => {
   }, [userContext.details, fetchUserDetails])
 
   const logoutHandler = () => {
-    fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "users/logout", {
+    fetch("/users/logout", {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",

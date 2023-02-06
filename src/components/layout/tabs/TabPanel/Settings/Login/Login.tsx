@@ -27,7 +27,7 @@ const Login = () => {
 
     const genericErrorMessage = "Something went wrong! Please try again later."
 
-    fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "users/login", {
+    fetch("/users/login", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

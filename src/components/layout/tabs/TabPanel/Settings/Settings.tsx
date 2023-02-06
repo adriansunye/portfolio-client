@@ -8,7 +8,7 @@ const Settings = () => {
     const [userContext, setUserContext] = useContext(UserContext);
 
     const verifyUser = useCallback(() => {
-        fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "users/refreshToken", {
+        fetch("/users/refreshToken", {
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
