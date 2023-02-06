@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Schema } from 'mongoose';
+import { styled } from '@mui/material/styles';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { Tooltip } from "@mui/material";
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
-interface Project {
-  _id: Schema.Types.ObjectId
-  projectName: string,
-  description: string,
-  repositoryUrl: string
-}
 
-interface Props {
-  project: Project
-}
-const Project = ({ project }: Props) => (
-  <tr>
-    <td>{project.projectName}</td>
-    <td>{project.description}</td>
-    <td>{project.repositoryUrl}</td>
-  </tr>
-);
+const Img = styled('img')({
+  margin: 'auto',
+  display: 'block',
+  maxWidth: '100%',
+  maxHeight: '100',
+  borderRadius: '16px'
+});
 
 export default function ProjectsList() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -43,32 +44,48 @@ export default function ProjectsList() {
     return;
   }, [projects.length]);
 
-  // This method will map out the records on the table
-  function projectList() {
-    return projects.map((project) => {
-      return (
-        <Project
-          project={project}
-          key={project._id}
-        />
-      );
-    });
-  }
-
   // This following section will display the table with the records of individuals.
   return (
-    <div>
-      <h3>Record List</h3>
-      <table className="table table-striped" style={{ marginTop: 20 }}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Level</th>
-          </tr>
-        </thead>
-        <tbody>{projectList()}</tbody>
-      </table>
-    </div>
+    <React.Fragment>
+      <Grid container spacing={2.5} paddingTop={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+
+        {projects.map((project, key) =>
+          <Grid item xs={12} sm={6} md={4} key={key}>
+
+            <Card sx={{ maxWidth: 500, px: 1, minHeight:540, display:'flex', flexDirection:'column'}}>
+              <CardHeader
+                title={project.projectName}
+                subheader={project.frameworks}
+              />
+              <CardMedia
+                component="img"
+                height="194"
+                image={'http://localhost:5000/public/images/' + project.imageUrl}
+                alt="Project image"
+              />
+              <CardContent>
+                <Typography variant="subtitle1" color="text.primary">
+                  {project.description}
+                </Typography>
+              </CardContent>
+              <CardActions disableSpacing sx={{display:'flex', justifyContent:"end"}}>
+                <Tooltip title='Go to github repo' placement="bottom" arrow>
+                  <IconButton href={project.repositoryUrl} aria-label="go to github repo">
+                    <GitHubIcon />
+                  </IconButton>
+                </Tooltip>
+                {project.deploymentUrl &&
+                  <Tooltip title='Go to deployment' placement="bottom" arrow>
+                    <IconButton href={project.deploymentUrl} aria-label="Go to deployment">
+                      <TravelExploreIcon />
+                    </IconButton>
+                  </Tooltip>
+                }
+              </CardActions>
+            </Card>
+          </Grid>
+        )}
+      </Grid>
+    </React.Fragment>
   );
 }

@@ -23,7 +23,7 @@ const Img = styled('img')({
     maxHeight: '300px',
     borderRadius: '16px'
 });
-const CreateMenu = (props: Props) => {
+const EditMenu = (props: Props) => {
     const [userContext] = useContext(UserContext)
     const { form, handleChange, ...otherProps } = props;
     const [preview, setPreview] = useState()
@@ -50,8 +50,6 @@ const CreateMenu = (props: Props) => {
         formData.append('description', form.description);
         formData.append('repositoryUrl', form.repositoryUrl);
         formData.append('deploymentUrl', form.deploymentUrl);
-        formData.append('frameworks', form.frameworks);
-
 
 
         // When a post request is sent to the create url, we'll add a new record to the database.
@@ -131,6 +129,7 @@ const CreateMenu = (props: Props) => {
                 />
                 <TextField
                     margin="normal"
+                    required
                     fullWidth
                     name="deploymentUrl"
                     label="Deployment Url"
@@ -139,16 +138,7 @@ const CreateMenu = (props: Props) => {
                     value={form.deploymentUrl}
                     onChange={handleChange}
                 />
-                <TextField
-                    margin="normal"
-                    fullWidth
-                    name="frameworks"
-                    label="Frameworks"
-                    type="frameworks"
-                    id="frameworks"
-                    value={form.frameworks}
-                    onChange={handleChange}
-                />
+
                 <input
                     required
                     ref={fileInput}
@@ -186,4 +176,4 @@ const CreateMenu = (props: Props) => {
     )
 }
 
-export default CreateMenu
+export default EditMenu

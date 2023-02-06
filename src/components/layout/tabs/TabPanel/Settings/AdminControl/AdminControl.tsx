@@ -15,15 +15,40 @@ import CreateMenu from "./CreateMenu";
 
 const Create = () => {
   const [repos, setRepos] = useState([])
-  const [repo, setRepo] = useState({name: "", description: "", clone_url: ""})
+  const [repo, setRepo] = useState({})
+  const [projects, setProjects] = useState([])
   const [open, setOpen] = React.useState(false);
-  const handleOpen = useCallback((event: React.SyntheticEvent, repo:any) => {
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const [form, setForm] = useState({});
+  const [selectedFile, setSelectedFile] = useState()
+  const handleOpen = useCallback((event: React.SyntheticEvent, newRepo: any) => {
     setOpen(true);
-    setRepo(repo)
+    setForm({
+      githubId: newRepo.id,
+      projectName: newRepo.name,
+      description: newRepo.description,
+      repositoryUrl: newRepo.clone_url,
+      deploymentUrl: '',
+      frameworks: '',
+      projectImage: null
+    })
   }, []);
+ 
   const handleClose = () => setOpen(false);
 
-  async function getUser() {
+
+  // These methods will update the state properties.
+  const handleChange = (event: any) => {
+    const name = event.target.name;
+    let value = event.target.files ? event.target.files[0] : event.target.value;
+    if (event.target.files) {
+      setSelectedFile(value)
+    }
+
+    setForm(values => ({ ...values, [name]: value }));
+  }
+
+  async function getGithubRepos() {
     const axiosInstance = axios.get(import.meta.env.VITE_GITHUB_USER_REPOS, {
       'headers': {
         Authorization: 'token' + import.meta.env.VITE_GITHUB_API_TOKEN
@@ -31,6 +56,19 @@ const Create = () => {
     });
     let response = await axiosInstance;
     setRepos(response.data)
+  }
+
+  async function getProjects() {
+    const response = await fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "projects/all");
+
+    if (!response.ok) {
+      const message = `An error occurred: ${response.statusText}`;
+      window.alert(message);
+      return;
+    }
+
+    const projects = await response.json();
+    setProjects(projects);
   }
 
   const [userContext, setUserContext] = useContext(UserContext)
@@ -71,7 +109,8 @@ const Create = () => {
     if (!userContext.details) {
       fetchUserDetails()
     }
-    getUser()
+    getGithubRepos();
+    getProjects();
   }, [userContext.details, fetchUserDetails])
 
   const logoutHandler = () => {
@@ -89,12 +128,20 @@ const Create = () => {
     })
   }
 
-  const refetchHandler = () => {
-    // set details to undefined so that spinner will be displayed and
-    //  fetchUserDetails will be invoked from useEffect
-    setUserContext(oldValues => {
-      return { ...oldValues, details: undefined }
-    })
+  // This method will delete a record
+  async function handleDelete(project: any) {
+    
+    await fetch(`http://localhost:5000/projects/delete/${project._id}`, {
+      method: "DELETE",
+      credentials: "include",
+      // Pass authentication token as bearer token in header
+      headers: {
+          Authorization: `Bearer ${userContext.token}`,
+      },
+    });
+
+    const updatedProjects = projects.filter((el) => el._id !== project._id);
+    setProjects(updatedProjects);
   }
 
   // This following section will display the form that takes the input from the user.
@@ -120,22 +167,33 @@ const Create = () => {
                 <Button href={repo.clone_url} size="small" color="primary">
                   Go to Repo
                 </Button>
-                <Button onClick={(e) => handleOpen(e, repo)}
+                {!projects.some(project => project.githubId == repo.id)?
+                  <Button onClick={(e) => handleOpen(e, repo)}
                     size="small" color="primary">
-                  Add Project
-                </Button>
+                    Add Project
+                  </Button>
+                  : <React.Fragment>
+                      <Button onClick={(e) => handleOpen(e, repo)}
+                        size="small" color="warning">
+                        Edit Project
+                      </Button>
+                      <Button onClick={(e) => handleDelete(projects.find(project => project.githubId == repo.id))}
+                        size="small" color="error">
+                        Delete Project
+                      </Button>
+                    </React.Fragment>
+                  }
               </CardActions>
             </Card>
-
           </Grid>
         ))}
-        </Grid>
-        <Stack direction="row" display="flex" justifyContent={"center"}  spacing={2} mt={2}>
-          <Button onClick={logoutHandler} variant="contained" color="secondary">Logout</Button>
-          <Button variant="contained" onClick={refetchHandler} >Refresh</Button>
-        </Stack>
+      </Grid>
+      <Stack direction="row" display="flex" justifyContent={"center"} spacing={2} mt={2}>
+        <Button onClick={logoutHandler} variant="contained" color="secondary">Logout</Button>
+      </Stack>
 
-        <CreateMenu open={open} onClose={handleClose} repo={repo}/>
+      <CreateMenu open={open} onClose={handleClose} form={form} handleChange={handleChange} selectedFile={selectedFile} />
+
     </React.Fragment>
   );
 }

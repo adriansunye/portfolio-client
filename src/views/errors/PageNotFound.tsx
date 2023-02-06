@@ -1,9 +1,13 @@
 import React from 'react'
+import Layout from '@/components/layout/Layout'
+import PanelsContainer from '@/components/layout/tabs/PanelsContainer/PanelsContainer'
 
-const Error404 = () => {
+const PageNotFound = () => {
   return (
-    <div>Error404</div>
+    <Layout>
+      <PanelsContainer/>
+    </Layout>
   )
 }
 
-export default Error404
+export default PageNotFound

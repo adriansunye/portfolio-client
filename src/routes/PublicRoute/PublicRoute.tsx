@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 
 import Home from '@/views/home/Home';
+import PageNotFound from '@/views/errors/PageNotFound';
+
 
 
 const PublicRoute = () => {
@@ -13,7 +15,7 @@ const PublicRoute = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<Home/>} />
-                <Route path="*" element="" />
+                <Route path="*" element={<PageNotFound/>} />
             </Routes>
         </Router>
     )

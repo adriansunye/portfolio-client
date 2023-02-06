@@ -37,8 +37,8 @@ const initialTabsData: TabsDataContextValue = {
         },
         {
             id: 2,
-            name: 'experience.md',
-            node: <Experience/>,
+            name: 'projects.md',
+            node: <Projects/>,
             closed: false
         },
         {
@@ -49,14 +49,14 @@ const initialTabsData: TabsDataContextValue = {
         },
         {
             id: 4,
-            name: 'projects.md',
-            node: <Projects/>,
+            name: 'certificates.md',
+            node: <Certificates/>,
             closed: false
         },
         {
             id: 5,
-            name: 'certificates.md',
-            node: <Certificates/>,
+            name: 'experience.md',
+            node: <Experience/>,
             closed: false
         },
         {

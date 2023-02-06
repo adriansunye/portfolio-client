@@ -18,7 +18,7 @@ type Props = {
 export default function SettingsMenu(props:Props) {
     const { tabsData, setActiveTabs, currentTab, setCurrentTab } = useTabsData();
 
-    const handleClick = () => {
+    const handleClick = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         if(currentTab !== 7){
             // loop over the todos list and find the provided id.
             let updatedTabs = tabsData.map(tab => {
@@ -31,6 +31,7 @@ export default function SettingsMenu(props:Props) {
             setActiveTabs(updatedTabs); // set state to new object with updated list
 
             setCurrentTab(7); // set state to new object with updated list
+            props.onClose(event);
         }
     };
     

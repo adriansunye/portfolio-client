@@ -86,6 +86,14 @@ const ListItem = ({ text }: Props) => {
                     onClick={handleClick}
                 >
                     <ListItemButton
+                        href={
+                            text === 'Github' 
+                            ? 'https://github.com/adriansunye' 
+                            : text === 'Linkedin' 
+                            ? 'https://www.linkedin.com/in/adriansunye/' 
+                            : text === 'Send Mail' 
+                            ? 'mailto:adrian.sunye@gmail.com' 
+                            : ''}
                         sx={{
                             minHeight: 48,
                             justifyContent: 'center',
