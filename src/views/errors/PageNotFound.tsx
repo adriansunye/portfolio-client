@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '@/components/layout/Layout'
 import PanelsContainer from '@/components/layout/tabs/PanelsContainer/PanelsContainer'
 
-const Home = () => {
+const PageNotFound = () => {
   return (
     <Layout>
       <PanelsContainer/>
@@ -10,4 +10,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default PageNotFound
