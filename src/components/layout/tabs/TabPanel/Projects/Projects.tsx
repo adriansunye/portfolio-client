@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Tooltip } from "@mui/material";
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import useProjects from "@/services/providers/ProjectsProvider";
 
 
 const Img = styled('img')({
@@ -22,27 +23,28 @@ const Img = styled('img')({
 });
 
 export default function ProjectsList() {
-  const [projects, setProjects] = useState<any[]>([]);
+  const {projects} = useProjects();
+  //const [projects, setProjects] = useState<any[]>([]);
 
   // This method fetches the records from the database.
-  useEffect(() => {
-    async function getProjects() {
-      const response = await fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "projects/all");
+  // useEffect(() => {
+  //   async function getProjects() {
+  //     const response = await fetch(import.meta.env.VITE_REACT_APP_API_ENDPOINT + "projects/all");
 
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        window.alert(message);
-        return;
-      }
+  //     if (!response.ok) {
+  //       const message = `An error occurred: ${response.statusText}`;
+  //       window.alert(message);
+  //       return;
+  //     }
 
-      const projects = await response.json();
-      setProjects(projects);
-    }
+  //     const projects = await response.json();
+  //     setProjects(projects);
+  //   }
 
-    getProjects();
+  //   getProjects();
 
-    return;
-  }, [projects.length]);
+  //   return;
+  // }, [projects.length]);
 
   // This following section will display the table with the records of individuals.
   return (
@@ -60,7 +62,7 @@ export default function ProjectsList() {
               <CardMedia
                 component="img"
                 height="194"
-                image={'http://localhost:5000/public/images/' + project.imageUrl}
+                image={project.imageUrl}
                 alt="Project image"
               />
               <CardContent>
